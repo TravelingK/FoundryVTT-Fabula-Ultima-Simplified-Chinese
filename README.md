@@ -95,3 +95,7 @@ The following assets/code were used from the following projects:
 - **RPG-Awesome**: [RPG-Awesome](https://nagoshiashumari.github.io/Rpg-Awesome/) by Daniela Howe and Ivan Montiel, licensed under the [BSD 2-Clause "Simplified" License](https://github.com/NagoshiAshumari/Rpg-Awesome/blob/master/LICENSE).
 
 The complete list of utilized assets and their respective licenses is available [here](https://github.com/League-of-Fabulous-Developers/FoundryVTT-Fabula-Ultima/blob/main/COPYRIGHT.md)
+
+## 概述
+
+使用weblate进行简中翻译的自用版本FU系统。专有名词翻译使用了官方汉化版本。
