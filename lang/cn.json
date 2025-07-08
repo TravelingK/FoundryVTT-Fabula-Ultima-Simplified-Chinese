@@ -565,7 +565,7 @@
         "Extra": "额外",
         "Event": "事件",
         "Interval": "间隔",
-        "Predicate": "谓词",
+        "Predicate": "断言",
         "Tracking": "跟踪",
         "Remaining": "剩余",
         "ChatActiveEffectDeleted": "所选的动态效果已被删除",
