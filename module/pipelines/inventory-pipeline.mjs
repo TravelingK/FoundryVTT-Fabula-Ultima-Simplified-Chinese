@@ -10,6 +10,17 @@ const lootAction = 'inventoryLoot';
 const rechargeAction = 'inventoryRecharge';
 const costPerIP = 10;
 
+function getCurrencyLocalizationKey() {
+	return game.settings.get('projectfu', 'optionRenameCurrency') || 'FU.Zenit';
+}
+
+/**
+ * @returns {String}
+ */
+function getCurrencyString() {
+	return game.i18n.localize(getCurrencyLocalizationKey());
+}
+
 /**
  * @param {FUActor} actor
  * @param {FUItem} item
@@ -48,7 +59,7 @@ async function tradeItem(actor, item, sale) {
 			itemId: item.uuid,
 			itemImg: item.img,
 			itemDescription: item.system.description,
-			currency: game.i18n.localize('FU.Zenit'),
+			currency: getCurrencyString(),
 			sale: sale,
 			cost: cost,
 			action: action,
@@ -56,13 +67,6 @@ async function tradeItem(actor, item, sale) {
 			tooltip: 'Boop',
 		}),
 	});
-}
-
-/**
- * @returns {String}
- */
-function getCurrencyString() {
-	return game.i18n.localize('FU.Zenit');
 }
 
 /**
@@ -113,7 +117,7 @@ async function distributeZenit(actor, targets) {
 			zenit: distributed,
 			share: share,
 			targets: targetString,
-			currency: game.i18n.localize('FU.Zenit'),
+			currency: getCurrencyString(),
 		}),
 		buttons: [
 			{
@@ -207,7 +211,7 @@ async function rechargeIP(actor) {
 		content: game.i18n.format('FU.ChatInventoryRechargePrompt', {
 			cost: cost,
 			ip: missingIP,
-			currency: game.i18n.localize('FU.Zenit'),
+			currency: getCurrencyString(),
 		}),
 		buttons: [
 			{
@@ -222,7 +226,7 @@ async function rechargeIP(actor) {
 						content: game.i18n.format('FU.ChatInventoryRechargeCompleted', {
 							target: target.name,
 							ip: missingIP,
-							currency: game.i18n.localize('FU.Zenit'),
+							currency: getCurrencyString(),
 						}),
 					});
 				},
@@ -259,7 +263,7 @@ async function requestZenitTransfer(sourceActorId, targetActorId, amount) {
 					source: sourceActor.name,
 					target: targetActor.name,
 					amount: amount,
-					currency: game.i18n.localize('FU.Zenit'),
+					currency: getCurrencyString(),
 				}),
 			});
 		}
@@ -275,6 +279,7 @@ async function requestZenitTransfer(sourceActorId, targetActorId, amount) {
  */
 async function promptPartyZenitTransfer(actor, mode) {
 	console.debug(`Prompt party zenit ${mode} for actor: ${actor.name}`);
+	const currency = getCurrencyString();
 	let label;
 	switch (mode) {
 		case 'deposit':
@@ -286,7 +291,7 @@ async function promptPartyZenitTransfer(actor, mode) {
 	}
 
 	new Dialog({
-		title: game.i18n.localize(label),
+		title: game.i18n.format(label, { currency: currency }),
 		content: `<form>
       <div class="form-group">        
         <label for="amount"">Amount</label>
@@ -335,7 +340,7 @@ async function promptPartyZenitTransfer(actor, mode) {
  * @param {String} targetId
  * @returns {Promise<boolean|undefined>}
  */
-async function requestTrade(actorId, itemId, sale, targetId = undefined) {
+async function requestTrade(actorId, itemId, sale, targetId = undefined, modifiers = {}) {
 	// Verify the item is still there
 	const item = fromUuidSync(itemId);
 	if (!item) {
@@ -355,18 +360,18 @@ async function requestTrade(actorId, itemId, sale, targetId = undefined) {
 
 	// Now execute directly on GM or request as user
 	if (game.user?.isGM) {
-		return handleTrade(actorId, itemId, sale, targetId);
+		return handleTrade(actorId, itemId, sale, targetId, modifiers);
 	} else {
-		await SOCKET.executeAsGM(MESSAGES.RequestTrade, actorId, itemId, sale, targetId);
+		await SOCKET.executeAsGM(MESSAGES.RequestTrade, actorId, itemId, sale, targetId, modifiers);
 		return false;
 	}
 }
 
-async function handleTrade(actorId, itemId, sale, targetId) {
+async function handleTrade(actorId, itemId, sale, targetId, modifiers = {}) {
 	const actor = fromUuidSync(actorId);
 	const item = fromUuidSync(itemId);
 	const target = fromUuidSync(targetId);
-	return onHandleTrade(actor, item, sale, target);
+	return onHandleTrade(actor, item, sale, target, modifiers);
 }
 
 /**
@@ -375,7 +380,7 @@ async function handleTrade(actorId, itemId, sale, targetId) {
  * @param {Boolean} sale
  * @param {FUActor} target
  */
-async function onHandleTrade(actor, item, sale, target) {
+async function onHandleTrade(actor, item, sale, target, modifiers = {}) {
 	// Don't execute on self
 	if (actor.uuid === target.uuid) {
 		return false;
@@ -404,8 +409,8 @@ async function onHandleTrade(actor, item, sale, target) {
 	// Transfer item
 	await target.createEmbeddedDocuments('Item', [item.toObject()]);
 
-	// Don't delete consumables from the source
-	if (item.type !== 'consumable') {
+	// Don't delete consumables from the source unless shift click
+	if (item.type !== 'consumable' || (item.type === 'consumable' && modifiers?.shift)) {
 		await item.delete();
 	}
 	let message = sale ? 'FU.ChatItemPurchased' : 'FU.ChatItemLooted';
@@ -419,7 +424,7 @@ async function onHandleTrade(actor, item, sale, target) {
 			actorName: actor.name,
 			itemName: item.name,
 			targetName: target.name,
-			currency: game.i18n.localize('FU.Zenit'),
+			currency: getCurrencyString(),
 			sale: sale,
 			cost: cost,
 		}),
@@ -433,7 +438,7 @@ function validateFunds(target, cost) {
 		ChatMessage.create({
 			content: game.i18n.format('FU.ChatInventoryTransactionFailed', {
 				actor: target.name,
-				currency: game.i18n.localize('FU.Zenit'),
+				currency: getCurrencyString(),
 			}),
 		});
 		return false;
@@ -450,16 +455,25 @@ async function onRenderChatMessage(message, jQuery) {
 		return;
 	}
 
-	Pipeline.handleClick(message, jQuery, sellAction, async (dataset) => {
-		const actor = dataset.actor;
-		const item = dataset.item;
-		return requestTrade(actor, item, true);
+	const getModifiers = (ev) => ({
+		shift: ev?.shiftKey ?? false,
+		ctrl: ev?.ctrlKey ?? false,
+		alt: ev?.altKey ?? false,
+		meta: ev?.metaKey ?? false,
 	});
 
-	Pipeline.handleClick(message, jQuery, lootAction, async (dataset) => {
+	Pipeline.handleClick(message, jQuery, sellAction, async (dataset, ev) => {
 		const actor = dataset.actor;
 		const item = dataset.item;
-		return requestTrade(actor, item, false);
+		const modifiers = getModifiers(ev);
+		return requestTrade(actor, item, true, modifiers);
+	});
+
+	Pipeline.handleClick(message, jQuery, lootAction, async (dataset, ev) => {
+		const actor = dataset.actor;
+		const item = dataset.item;
+		const modifiers = getModifiers(ev);
+		return requestTrade(actor, item, false, modifiers);
 	});
 
 	Pipeline.handleClick(message, jQuery, rechargeAction, async (dataset) => {
