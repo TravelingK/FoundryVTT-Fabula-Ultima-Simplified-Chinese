@@ -1461,6 +1461,32 @@
             "ChangeWarning2": "更改物品的 Fabula Ultima ID 可能会破坏对物品的引用！请务必谨慎操作。",
             "ChangeWarning3": "你想继续吗？",
             "ChangeWarning1": "谨慎操作！"
-        }
+        },
+        "AffinityResistanceHint": "抵抗乘数",
+        "Opportunities": "机会",
+        "OpportunitiesHint": "指定后，将提示用户进行选择。",
+        "ChatApplyOpportunity": "应用机会",
+        "ChatOpportunity": "<strong>{actor}</strong>可以应用机会效果！",
+        "ChatOpportunitySettingMissing": "必须在系统房规设置中设置机会自动化",
+        "ClockSections": "格",
+        "RequestEndTurnNoActiveGM": "没有在线的 GM！无法结束回合。",
+        "RequestZenitTransferNoActiveGM": "没有在线的 GM！无法转移{currency}。",
+        "RequestTradeNoActiveGM": "没有在线的 GM！无法交易物品。",
+        "Automation": "自动化",
+        "AutomationOptions": "管理自动化选项",
+        "AutomationHint": "启用自动处理角色的伤害、治疗、效果应用。",
+        "Homebrew": "房规",
+        "HomebrewOptions": "管理房规",
+        "SheetOptionsTitle": "文档卡",
+        "SheetOptions": "配置卡",
+        "SheetOptionsHint": "配置系统卡的各种选项。",
+        "HomebrewHint": "应用各种系统覆盖。",
+        "AffinityVulnerableHint": "弱点乘数",
+        "SocketHandlerAlreadyRegistered": "尝试重新注册现有套接字处理程序：{name}",
+        "OptionalFeatureCampActivity": "营地活动",
+        "ChatApplyDamageNone": "<strong>{actor}</strong>没有受到来自<strong>{from}</strong>的伤害。",
+        "ChatFumbleOpportunity": "<strong>{actor}</strong>的敌人可以应用机会效果！",
+        "RequestStartTurnNoActiveGM": "没有在线的 GM！无法进行回合。",
+        "SetActive": "设置为激活"
     }
 }
