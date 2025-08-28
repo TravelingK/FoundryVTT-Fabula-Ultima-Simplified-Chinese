@@ -1306,7 +1306,7 @@
         "ChooseWeaponDialogTitle": "选择武器",
         "ClassFeatureInfusionsApply": "应用注魔",
         "ClassFeatureInfusionsDialogTitle": "选择注魔",
-        "Variable": "变更",
+        "Variable": "可变",
         "DamagePipelineStepInitial": "初始",
         "DamagePipelineStepScaleIncomingDamage": "增加传入伤害",
         "DamagePipelineStepAffinity": "相性",
