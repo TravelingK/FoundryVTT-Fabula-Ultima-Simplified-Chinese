@@ -1493,6 +1493,21 @@
         "ShowTokenDragRulerKey": "显示指示物拖拽标尺",
         "CostPerTarget": "每个目标消耗",
         "DragRulerSettingsEnableGridlessLabel": "在无网格场景中启用拖拽标尺功能",
-        "DragRulerSettingsEnableGriddedHint": "在有网格场景中拖动指示物时显示距离测量值。"
+        "DragRulerSettingsEnableGriddedHint": "在有网格场景中拖动指示物时显示距离测量值。",
+        "Decrement": "减量",
+        "ChatPromptCheck": "已提示检定<strong>{verb}</strong> 以下命刻：",
+        "DialogPromptCheck": "即时检定",
+        "ChatAddProgressTrackTooltip": "点击来向当前冲突添加一个进度跟踪器。",
+        "PerformCheck": "执行检定",
+        "AutomationApplyDamageHint": "在允许的情况下自动应用行动伤害",
+        "Increment": "增量",
+        "CombatHudPixel": "像素",
+        "ChatProgressTrackRemoved": "<strong>{name}</strong>已结束。",
+        "Track": "跟踪器",
+        "Tracks": "跟踪器",
+        "CombatHudResetPosition": "重置 HUD 位置",
+        "CombatHudResetPositionHint": "将战斗 HUD 重置回默认位置。",
+        "AutomationApplyDamage": "应用伤害",
+        "ChatProgressTrackAdded": "<strong>{name}</strong>已由<strong>{source}</source>启动。"
     }
 }
