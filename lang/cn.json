@@ -1487,6 +1487,12 @@
         "ChatApplyDamageNone": "<strong>{actor}</strong>没有受到来自<strong>{from}</strong>的伤害。",
         "ChatFumbleOpportunity": "<strong>{actor}</strong>的敌人可以应用机会效果！",
         "RequestStartTurnNoActiveGM": "没有在线的 GM！无法进行回合。",
-        "SetActive": "设置为激活"
+        "SetActive": "设置为激活",
+        "DragRulerSettingsEnableGridlessHint": "在无网格场景中拖动指示物时显示距离测量值。",
+        "DragRulerSettingsEnableGriddedLabel": "在有网格场景中启用拖拽标尺功能",
+        "ShowTokenDragRulerKey": "显示指示物拖拽标尺",
+        "CostPerTarget": "每个目标消耗",
+        "DragRulerSettingsEnableGridlessLabel": "在无网格场景中启用拖拽标尺功能",
+        "DragRulerSettingsEnableGriddedHint": "在有网格场景中拖动指示物时显示距离测量值。"
     }
 }
